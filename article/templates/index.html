@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <title></title>
+  </head>
+  <body>
+
+    <div id="search">
+      <div class="search-wrapper">
+        <input class="search" type="text" name="search" v-model="search" placeholder="Search Articles">
+      </div>
+      <div class="results-wrapper">
+        <div filteredArticles="{{filteredArticles}}" v-for="article in filteredArticles">
+          <h2 class="article">{{ article }}</h2>
+        </div>
+      </div>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+
+  <script type="text/javascript">
+
+    var data = {{json|safe}}
+    var articles = []
+    data.forEach(function(item) {
+      articles.push(item.fields.article_heading);
+    })
+    console.log(data);
+
+
+    new Vue({
+
+      el: "#search",
+      data: {
+        search: '',
+        all_articles: data
+      },
+      computed: {
+        filteredArticles() {
+          return this.articles.filter( article => article.toLowerCase().includes(this.search.toLowerCase()) )
+        }
+      }
+    })
+  </script>
+  </body>
+</html>
